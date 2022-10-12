@@ -1,3 +1,5 @@
+
+
 package com.example;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,33 +8,30 @@ import java.net.Socket;
 
 public class App 
 {
-    public static void main( String[] args )throws Exception
+    public static void main( String[] args ) throws Exception
     {
-        Socket s= new Socket("localhost",3000);
-        PrintWriter pr = new PrintWriter(s.getOutputStream());
-        /*pr.println("ci sono");
-        pr.flush();*/
+        Socket s = new Socket("localhost", 3000);
 
-        BufferedReader tastiera=new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("inserisci il messaggio:");
-        String stringUtente = tastiera.readLine();
+        while(true){
+        
+        // per parlare
+        PrintWriter pr = new PrintWriter(s.getOutputStream(), true);
+        
+        // per ascoltare
+        BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
-        pr.println(stringUtente);
-        pr.flush();
+        // per la tastiera
+        BufferedReader tastiera = new BufferedReader(new InputStreamReader(System.in));
 
-        /*InputStreamReader in = new InputStreamReader(s.getInputStream());
-        BufferedReader br = new BufferedReader(in);*/
-
-        BufferedReader inputStrem1 = new BufferedReader(new InputStreamReader(s.getInputStream())); 
-
-        String str1 = inputStrem1.readLine();
-        System.out.println("Server: "+str1);
-
-        BufferedReader inputStrem = new BufferedReader(new InputStreamReader(s.getInputStream())); 
-
-        String str = inputStrem.readLine();
-        System.out.println("Server: "+str);
-   
+        pr.println("Eccomi");
+        System.out.println(br.readLine()); // rivevo: benvenuti dammi il tuo peso
+        pr.println(tastiera.readLine()); // leggo da tastiera il peso e lo invio
+        System.out.println(br.readLine()); // ricevo: dammi l'altezza
+        pr.println(tastiera.readLine()); // leggo da tastiera l'altezza e la invio
+        System.out.println(br.readLine()); //rivevo il BMI 
+        pr.println("Grazie e ciao");
+        }
+        
         s.close();
     }
 }
